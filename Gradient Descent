@@ -1,0 +1,34 @@
+import numpy as np
+
+# Data
+x = np.array([1, 2, 3, 4, 5], dtype=float)
+y = np.array([5, 6, 10, 13, 11], dtype=float)
+
+# Initial values (board style)
+beta0 = 3.0
+beta1 = 2.0
+
+lr = 0.01   # learning rate
+steps = 3   # board-এ ৩টা row ছিল তাই ৩ iteration
+
+print("Iter |   β0     β1     Error")
+print("--------------------------------")
+
+for i in range(steps):
+
+    # Prediction
+    y_pred = beta0 + beta1 * x
+
+    # Error (MSE)
+    error = np.mean((y - y_pred)**2)
+
+    # Print like board
+    print(f"{i+1:4d} | {beta0:.2f}   {beta1:.2f}    {error:.4f}")
+
+    # Gradients
+    grad0 = -2 * np.mean(y - y_pred)
+    grad1 = -2 * np.mean((y - y_pred) * x)
+
+    # Update β0, β1
+    beta0 -= lr * grad0
+    beta1 -= lr * grad1
