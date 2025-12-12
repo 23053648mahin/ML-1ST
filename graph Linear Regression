@@ -1,0 +1,30 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Data
+x = np.array([1, 2, 3, 4, 5], dtype=float)
+y = np.array([5, 6, 10, 13, 11], dtype=float)
+
+# Regression coefficients (Closed-form)
+X = np.vstack([np.ones_like(x), x]).T
+beta = np.linalg.inv(X.T @ X) @ (X.T @ y)
+
+beta0, beta1 = beta
+
+# Prediction line
+x_line = np.linspace(min(x), max(x), 100)
+y_line = beta0 + beta1 * x_line
+
+# -----------------------------
+#      Plot
+# -----------------------------
+plt.scatter(x, y, s=80, label="Data points")          
+plt.plot(x_line, y_line, linewidth=2, label="Regression Line")  
+
+plt.title("Linear Regression Line")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.grid(True)
+
+plt.show()
