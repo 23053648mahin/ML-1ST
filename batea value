@@ -1,0 +1,46 @@
+# Linear regression for data from the board
+# x: 1,2,3,4,5
+# y: 5,6,10,13,11
+
+import numpy as np
+
+# Data
+x = np.array([1, 2, 3, 4, 5], dtype=float)
+y = np.array([5, 6, 10, 13, 11], dtype=float)
+
+# ----- 1) Closed-form solution (Normal equation) -----
+# Add intercept column
+X = np.vstack([np.ones_like(x), x]).T            # shape (n,2)
+beta_closed = np.linalg.inv(X.T @ X) @ X.T @ y   # [beta0, beta1]
+
+# Predictions and MSE
+y_pred_closed = X @ beta_closed
+mse_closed = np.mean((y - y_pred_closed) ** 2)
+
+print("Closed-form (Normal eq):")
+print("  beta0 = {:.4f}, beta1 = {:.4f}".format(beta_closed[0], beta_closed[1]))
+print("  preds =", np.round(y_pred_closed, 3))
+print("  MSE =", round(mse_closed, 6))
+print()
+
+# ----- 2) Gradient Descent (batch) -----
+# Initialize
+beta_gd = np.array([0.0, 0.0])   # [beta0, beta1]
+lr = 0.01                        # learning rate
+n_iters = 10000
+
+for i in range(n_iters):
+    preds = beta_gd[0] + beta_gd[1] * x
+    # gradients (mean squared error derivative)
+    grad0 = -2 * np.mean(y - preds)
+    grad1 = -2 * np.mean((y - preds) * x)
+    # update
+    beta_gd -= lr * np.array([grad0, grad1])
+
+y_pred_gd = beta_gd[0] + beta_gd[1] * x
+mse_gd = np.mean((y - y_pred_gd) ** 2)
+
+print("Gradient Descent:")
+print("  beta0 = {:.4f}, beta1 = {:.4f}".format(beta_gd[0], beta_gd[1]))
+print("  preds =", np.round(y_pred_gd, 3))
+print("  MSE =", round(mse_gd, 6))
