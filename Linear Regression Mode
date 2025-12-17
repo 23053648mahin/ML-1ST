@@ -1,0 +1,28 @@
+import numpy as np
+
+# Given data
+X = np.array([43, 21, 25, 42, 57, 59])   # Age
+Y = np.array([99, 65, 79, 75, 87, 81])   # Glucose level
+
+n = len(X)
+
+# Required sums
+sum_X = np.sum(X)
+sum_Y = np.sum(Y)
+sum_XY = np.sum(X * Y)
+sum_X2 = np.sum(X ** 2)
+sum_Y2 = np.sum(Y ** 2)
+
+# Pearson correlation coefficient formula
+r = (n * sum_XY - sum_X * sum_Y) / np.sqrt(
+    (n * sum_X2 - sum_X**2) * (n * sum_Y2 - sum_Y**2)
+)
+
+# Output
+print("n =", n)
+print("ΣX =", sum_X)
+print("ΣY =", sum_Y)
+print("ΣXY =", sum_XY)
+print("ΣX² =", sum_X2)
+print("ΣY² =", sum_Y2)
+print("Correlation coefficient (r) =", round(r, 3))
